@@ -1,13 +1,15 @@
 package coordinator
 
-import "time"
+import (
+	"time"
+)
 
 type EventRaiser interface {
 	AddListener(eventName string, f func(interface{}))
 }
 
 type EventAggregator struct {
-	listeners map[string][]func(EventData)
+	listeners map[string][]func(interface{})
 }
 
 func NewEventAggregator() *EventAggregator {

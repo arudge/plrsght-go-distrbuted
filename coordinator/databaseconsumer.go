@@ -7,6 +7,7 @@ import (
 	"git.target.com/plrsght-go-distrbuted/dto"
 	"bytes"
 	"encoding/gob"
+	"fmt"
 )
 
 const maxRate = 5 * time.Second
@@ -37,6 +38,7 @@ func NewDatabaseConsumer(er EventRaiser) *DatabaseConsumer {
 func (dc *DatabaseConsumer) SubscribeToDataEvent(eventName string) {
 	for _, v := range dc.sources {
 		if v == eventName {
+			fmt.Println("Found no database events to consume. Exit.")
 			return
 		}
 	}
@@ -48,6 +50,7 @@ func (dc *DatabaseConsumer) SubscribeToDataEvent(eventName string) {
 
 		return func(eventData interface{}) {
 			ed := eventData.(EventData)
+
 			if time.Since(prevTime) > maxRate {
 				prevTime = time.Now()
 

@@ -6,7 +6,8 @@ import (
 	"github.com/streadway/amqp"
 )
 
-const SensorListQueue = "SensorList"
+const SensorDiscoveryExchange = "SensorDiscovery"
+const PersistReadingsQueue = "PersistReadings"
 
 func GetChannel(url string) (*amqp.Connection, *amqp.Channel) {
 	conn, err := amqp.Dial(url)
@@ -18,11 +19,11 @@ func GetChannel(url string) (*amqp.Connection, *amqp.Channel) {
 	return conn, ch
 }
 
-func GetQueue(name string, ch *amqp.Channel) *amqp.Queue {
+func GetQueue(name string, ch *amqp.Channel, autoDelete bool) *amqp.Queue {
 	q, err := ch.QueueDeclare(
 		name,
 		false,
-		false,
+		autoDelete,
 		false,
 		false,
 		nil)

@@ -15,7 +15,7 @@ func main() {
 	go ql.ListenForNewSource()
 
 
-	fmt.Print("Waiting for messages.....")
+	fmt.Println("Waiting for messages.....")
 
 	var a string
 	fmt.Scanln(&a)

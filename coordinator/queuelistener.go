@@ -38,6 +38,8 @@ func (ql *QueueListener) ListenForNewSource() {
 		false,
 		nil)
 
+	fmt.Println("Attempting to consume new source messages from queue: " + q.Name)
+
 	msgs, _ := ql.ch.Consume(
 		q.Name,
 		"",
@@ -60,7 +62,6 @@ func (ql *QueueListener) ListenForNewSource() {
 		}
 
 		go ql.AddListener(sourceChan)
-
 	}
 }
 
@@ -78,7 +79,7 @@ func (ql *QueueListener) AddListener(msgs <-chan amqp.Delivery) {
 			Timestamp: sd.Timestamp,
 			Value: sd.Value,
 		}
-		ql.ea.PublishEvent("MessageReceived " + msg.RoutingKey, ed)
+		ql.ea.PublishEvent("MessageReceived_"+msg.RoutingKey, ed)
 	}
 }
 
