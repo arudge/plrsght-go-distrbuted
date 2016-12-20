@@ -22,12 +22,15 @@ var min = flag.Float64("min", 1., "minimum value for generated readings")
 var stepSize = flag.Float64("step", 0.1, "maxium allowable change per measurement")
 
 var r = rand.New(rand.NewSource(time.Now().UnixNano()))
-var nom = (*max - *min) / 2 + *min
 
-var value = r.Float64() * (*max - *min) + *min
+var nom float64
+var value float64
 
 func main() {
 	flag.Parse()
+
+	nom = (*max - *min) / 2 + *min
+	value = r.Float64() * (*max - *min) + *min
 
 	conn, ch := qutils.GetChannel(url)
 	defer ch.Close()
